@@ -1,0 +1,9 @@
+.coming-soon {
+  text-align: center;
+  padding-top: var(--space-7);
+  padding-bottom: var(--space-7);
+}
+.coming-soon p {
+  max-width: 46ch;
+  margin: 0 auto;
+}
