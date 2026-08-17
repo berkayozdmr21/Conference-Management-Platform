@@ -1,0 +1,26 @@
+body{
+    padding-top: 70px;
+}
+.card{
+    transition: all 0.3 ease;
+    cursor:pointer;
+}
+.card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    
+}
+.btn{
+    transition: all 0.3 ease;
+
+}
+.btn:hover{
+    transform: scale(1.05);
+}
+.nav-link:hover{
+    color:#ffc107 !important;
+}
+.table tbody tr:hover{
+    background:#f8f9fa; 
+    transition: 0.3s;
+}
