@@ -1,3 +1,4 @@
+import Reveal from "../components/ui/Reveal";
 import { Link } from "react-router-dom";
 import SessionTag from "../components/ui/SessionTag";
 import SectionHeading from "../components/ui/SectionHeading";
@@ -90,14 +91,16 @@ export default function Home() {
             title="Konferans Konuları"
             description="Aşağıdaki oturum başlıklarında bildiri gönderimi kabul edilmektedir."
           />
-          <div className="topics-grid">
-            {topics.map((t) => (
-              <div className="topic-card" key={t.id}>
-                <SessionTag code={t.code} tone="maroon" />
-                <h3>{t.name}</h3>
-              </div>
-            ))}
-          </div>
+        <div className="topics-grid">
+  {topics.map((t, i) => (
+   <Reveal key={t.id} delay={i * 130}>
+      <div className="topic-card">
+        <SessionTag code={t.code} tone="maroon" />
+        <h3>{t.name}</h3>
+      </div>
+    </Reveal>
+  ))}
+</div>
         </div>
       </section>
 
@@ -109,22 +112,24 @@ export default function Home() {
             title="Davetli Konuşmacılar"
             description="Alanlarında öncü akademisyenler konferansımıza katılım sağlayacaktır."
           />
-          <div className="speakers-grid">
-            {speakers.map((s) => (
-              <div className="speaker-card" key={s.id}>
-                {s.photo ? (
-                  <img className="speaker-card__photo" src={s.photo} alt={s.name} />
-                ) : (
-                  <div className="speaker-card__avatar" aria-hidden="true">
-                    {s.name.split(" ").slice(-1)[0][0]}
-                  </div>
-                )}
-                <h3>{s.name}</h3>
-                <p className="speaker-card__meta">{s.university} · {s.country}</p>
-                <p>{s.description}</p>
-              </div>
-            ))}
+         <div className="speakers-grid">
+  {speakers.map((s, i) => (
+    <Reveal key={s.id} delay={i * 130}>
+      <div className="speaker-card">
+        {s.photo ? (
+          <img className="speaker-card__photo" src={s.photo} alt={s.name} />
+        ) : (
+          <div className="speaker-card__avatar" aria-hidden="true">
+            {s.name.split(" ").slice(-1)[0][0]}
           </div>
+        )}
+        <h3>{s.name}</h3>
+        <p className="speaker-card__meta">{s.university} · {s.country}</p>
+        <p>{s.description}</p>
+      </div>
+    </Reveal>
+  ))}
+</div>
           <div className="speakers-preview__cta">
             <Link to="/konusmacilar" className="btn btn-outline">Tüm konuşmacıları gör</Link>
           </div>

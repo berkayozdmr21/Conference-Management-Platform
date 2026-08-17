@@ -1,3 +1,4 @@
+import Reveal from "../components/ui/Reveal";
 import useApiData from "../hooks/useApiData";
 import speakersService from "../services/speakersService";
 import { mockSpeakers } from "../data/mockData";
@@ -28,18 +29,18 @@ export default function Speakers() {
         />
 
         <div className="speaker-full-grid">
-          {speakers.map((s) => (
-            <article className="speaker-full-card" key={s.id}>
-              <SpeakerAvatar speaker={s} />
-              <div>
-                <h3>{s.name}</h3>
-                <p className="speaker-full-card__title">{s.title}</p>
-                <p className="speaker-full-card__meta">{s.university} · {s.country}</p>
-                <p>{s.description}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+  {speakers.map((s, i) => (
+    <Reveal key={s.id} as="article" delay={i * 70} className="speaker-full-card">
+      <SpeakerAvatar speaker={s} />
+      <div>
+        <h3>{s.name}</h3>
+        <p className="speaker-full-card__title">{s.title}</p>
+        <p className="speaker-full-card__meta">{s.university} · {s.country}</p>
+        <p>{s.description}</p>
+      </div>
+    </Reveal>
+  ))}
+</div>
       </div>
     </section>
   );

@@ -110,3 +110,14 @@ textarea:focus-visible {
   border-color: var(--color-ink);
   text-decoration: none;
 }
+
+.topic-card,
+.speaker-card,
+.speaker-full-card {
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.topic-card:hover,
+.speaker-card:hover,
+.speaker-full-card:hover {
+  box-shadow: var(--shadow-card);
+}

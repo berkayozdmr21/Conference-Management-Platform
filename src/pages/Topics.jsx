@@ -1,3 +1,4 @@
+import Reveal from "../components/ui/Reveal";
 import useApiData from "../hooks/useApiData";
 import topicsService from "../services/topicsService";
 import { mockTopics } from "../data/mockData";
@@ -23,14 +24,14 @@ export default function Topics() {
           </p>
         )}
 
-        <ul className="topics-list">
-          {topics.map((t) => (
-            <li key={t.id} className="topics-list__item">
-              <SessionTag code={t.code} tone="maroon" />
-              <span>{t.name}</span>
-            </li>
-          ))}
-        </ul>
+       <ul className="topics-list">
+  {topics.map((t, i) => (
+    <Reveal key={t.id} as="li" delay={i * 100} className="topics-list__item">
+      <SessionTag code={t.code} tone="maroon" />
+      <span>{t.name}</span>
+    </Reveal>
+  ))}
+</ul>
       </div>
     </section>
   );
