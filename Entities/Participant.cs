@@ -6,6 +6,6 @@
         public int SubmissionId { get; set; }
         public bool Published { get; set; }
 
-        public Submission Submission { get; set; }
+        public Submission Submission { get; set; } = null!;
     }
 }

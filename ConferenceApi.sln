@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceApi", "ConferenceApi.csproj", "{EAF0E65E-6448-DB1C-8E9A-6236A249096A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceApi.Tests", "..\ConferenceApi.Tests\ConferenceApi.Tests.csproj", "{6DB89805-B914-4EAB-BED8-6664A0D9B971}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAF0E65E-6448-DB1C-8E9A-6236A249096A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAF0E65E-6448-DB1C-8E9A-6236A249096A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF0E65E-6448-DB1C-8E9A-6236A249096A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAF0E65E-6448-DB1C-8E9A-6236A249096A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DB89805-B914-4EAB-BED8-6664A0D9B971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DB89805-B914-4EAB-BED8-6664A0D9B971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DB89805-B914-4EAB-BED8-6664A0D9B971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DB89805-B914-4EAB-BED8-6664A0D9B971}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3122A268-BC05-4BAC-877C-478B78ECBCF7}
+	EndGlobalSection
+EndGlobal

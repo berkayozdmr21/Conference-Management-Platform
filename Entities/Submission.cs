@@ -1,17 +1,47 @@
-﻿namespace ConferenceApi.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ConferenceApi.Entities
 {
     public class Submission
     {
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Country { get; set; }
-        public string StudyTitle { get; set; }
-        public string Session { get; set; }
-        public string ParticipationType { get; set; }
-        public string FilePath { get; set; }
-        public string Status { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string FirstName { get; set; }=string.Empty;
+
+        [Required]
+        [MaxLength(50)]
+        public string LastName { get; set; }= string.Empty;
+
+        [Required]
+        [MaxLength(100)]
+        public string Email { get; set; }=string.Empty ;
+
+        [Required]
+        [MaxLength(50)]
+        public string Country { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(100)]
+        public string StudyTitle { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(50)]
+        public string Session { get; set; }=string.Empty;
+
+        [Required]
+        [MaxLength(50)]
+        public string ParticipationType { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(255)]
+        public string FilePath { get; set; } = string.Empty;
+
+       
+        [MaxLength(20)]
+        public string Status { get; set; } = string.Empty;
+
         public DateTime CreatedAt { get; set; }
     }
 }

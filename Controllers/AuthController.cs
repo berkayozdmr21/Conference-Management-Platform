@@ -38,17 +38,22 @@ namespace ConferenceApi.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpGet("me")]
-        public IActionResult GetCurrentAdmin()
+        public ActionResult<object> GetCurrentAdmin()
         {
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
             var name = User.FindFirst(ClaimTypes.Name)?.Value;
-            return Ok(new { email, name });
+
+            return Ok(new
+            {
+                email,
+                name
+            });
         }
     }
 
     public class LoginRequest
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; }=string.Empty;  
     }
 }
