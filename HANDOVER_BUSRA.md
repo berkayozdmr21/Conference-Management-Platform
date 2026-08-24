@@ -91,7 +91,7 @@ Word dosyası ile yapılan testte dosya kabul edilmedi ve:
 
 hatası alındı.
 
-Daha sonra gerçek bir PDF dosyası ile test yapıldı ve işlem başarıyla 201 Created sonucunu verdi.
+Daha sonra gerçek bir PDF dosyası ile test edildi ve işlem başarıyla 201 Created sonucunu verdi.
 
 ---
 
@@ -208,19 +208,39 @@ Word dosyası yükleme| Reddedildi
 - Swagger üzerinden yapılan authentication ve Submission testleri sonraki değişikliklerden sonra tekrar çalıştırılmalıdır.
 - GitHub'a gönderilmeden önce ".gitignore" dosyası kontrol edilmelidir.
 - ".vs", "bin" ve "obj" klasörlerinin GitHub'a gönderilmediğinden emin olunmalıdır.
-- "appsettings.json" içerisinde bulunan veritabanı bağlantı bilgileri ve JWT secret gibi hassas bilgiler GitHub'a gönderilmeden önce kontrol edilmelidir.
+- "appsettings.json" içerisinde bulunan veritabanı bağlantı bilgilerinin ve diğer yapılandırmaların geliştirme ortamına uygun olduğu kontrol edilmelidir.
 
 ---
 
 11. Projeyi Devralan Kişi Nereden Devam Etmeli?
 
-Projeyi devralan kişinin aşağıdaki sırayı takip etmesi önerilir:
+Projeyi devralan kişinin aşağıdaki sırayı takip etmesi önerilir.
 
 1. Projeyi çalıştır ve MSSQL bağlantısını kontrol et
 
 Projeyi Visual Studio üzerinden açarak çalıştır.
 
 MSSQL veritabanı bağlantısının doğru olduğunu ve tabloların mevcut olduğunu kontrol et.
+
+"appsettings.json" içerisinde bulunan:
+
+ConnectionStrings → DefaultConnection
+
+bölümündeki Server değeri geliştirme bilgisayarındaki SQL Server instance adına göre tanımlanmıştır.
+
+Mevcut bağlantıda kullanılan Server değeri:
+
+DESKTOP-0VDP21V
+
+şeklindedir.
+
+Projeyi başka bir bilgisayarda çalıştıracak kişi, "Server" değerini kendi bilgisayarındaki MSSQL Server instance adına göre güncellemelidir.
+
+Örneğin:
+
+"ConnectionStrings": {
+  "DefaultConnection": "Server=KENDI-SQL-SERVER-ADIN;Database=ConferenceDb;Trusted_Connection=True;TrustServerCertificate=True;"
+}
 
 MySQL bağlantısı kullanılmamalıdır. Proje geliştirme ortamında MSSQL üzerinden çalışmaktadır.
 
@@ -307,9 +327,9 @@ obj/
 
 gibi geliştirme ortamına ait klasörlerin repoya eklenmediğinden emin olunmalıdır.
 
-Ayrıca "appsettings.json" içerisindeki bağlantı bilgileri ve JWT secret gibi hassas bilgilerin güvenli şekilde tutulduğu kontrol edilmelidir.
+Ayrıca "appsettings.json" içerisindeki bağlantı bilgilerinin ve diğer yapılandırmaların kontrol edilmesi gerekir.
 
-Kontroller tamamlandıktan sonra değişiklikler commit edilip GitHub'a push edilebilir.
+Kontroller tamamlandıktan sonra değişiklikler commit edilip ilgili branch'e push edilebilir.
 
 ---
 
