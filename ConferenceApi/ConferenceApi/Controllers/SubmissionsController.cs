@@ -80,5 +80,12 @@ namespace ConferenceApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        // DELETE /api/submissions/{id}
+[HttpDelete("{id}")]
+public async Task<IActionResult> Delete(int id)
+{
+    var deleted = await _service.DeleteAsync(id);
+    return deleted ? NoContent() : NotFound();
+}
     }
 }

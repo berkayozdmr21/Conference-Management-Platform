@@ -8,5 +8,6 @@ namespace ConferenceApi.Services
         Task<IEnumerable<SubmissionDto>> GetAllAsync();
         Task<SubmissionDto?> GetByIdAsync(int id);
         Task<SubmissionDto?> UpdateStatusAsync(int id, string status);
+        Task<bool> DeleteAsync(int id);
     }
 }

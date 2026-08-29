@@ -61,6 +61,15 @@ namespace ConferenceApi.Services
             return ToDto(entity);
         }
 
+        public async Task<bool> DeleteAsync(int id)
+{
+    var entity = await _context.Submissions.FindAsync(id);
+    if (entity is null) return false;
+
+    _context.Submissions.Remove(entity);
+    await _context.SaveChangesAsync();
+    return true;
+}
         private static SubmissionDto ToDto(Submission s) => new()
         {
             Id = s.Id,

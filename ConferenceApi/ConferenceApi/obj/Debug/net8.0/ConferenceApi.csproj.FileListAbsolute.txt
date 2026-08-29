@@ -138,3 +138,5 @@ C:\Users\Tr\Desktop\Conference-Management-Platform-nilay-week1\ConferenceApi\Con
 C:\Users\Tr\Desktop\Conference-Management-Platform-nilay-week1\ConferenceApi\ConferenceApi\bin\Debug\net8.0\MySqlConnector.dll
 C:\Users\Tr\Desktop\Conference-Management-Platform-nilay-week1\ConferenceApi\ConferenceApi\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\Tr\Desktop\Conference-Management-Platform-nilay-week1\ConferenceApi\ConferenceApi\bin\Debug\net8.0\appsettings.json
+C:\Users\Tr\Desktop\Conference-Management-Platform-nilay-week1\ConferenceApi\ConferenceApi\obj\Debug\net8.0\ConferenceApi.sourcelink.json
+C:\Users\Tr\Desktop\Conference-Management-Platform-nilay-week1\ConferenceApi\ConferenceApi\bin\Debug\net8.0\ConferenceApi.staticwebassets.runtime.json
