@@ -177,28 +177,34 @@ gerçek bir kayıp yaşanmadı, ama dolu bir veritabanında dikkat edilmeli.
 - **`SubmissionService` içindeki `AllowedStatuses` dizisi.** Durum değerlerini tek yerde
   tutup doğrulaması iyi bir tercih; sihirli metin dağılmamış.
 
-## Eksikler
+## Tamamladığım kısımlar
 
-- **Kimlik doğrulama katmanı hiç yoktu.** `Program.cs` içinde `app.UseAuthorization()`
-  vardı ama ne `AddAuthentication` ne `UseAuthentication` vardı. Bu, "yetki kapısı var,
-  kimlik kontrolü yok" demek — `[Authorize]` yazılsa bile çalışmazdı. Tüm endpoint'ler
-  herkese açıktı: internetteki herhangi biri konuşmacı silebilir, başvuruları
-  listeleyebilirdi. En kritik bulgu buydu.
-- **`DbSeeder` yazılmış ama hiçbir yerden çağrılmıyordu.** `ConferenceDbContext` içinde
-  `OnModelCreating` metodu yoktu, dolayısıyla seed verisi hiç veritabanına gitmiyordu.
-  Dosya duruyor ama ölü koddu.
-- **`bin/` ve `obj/` klasörleri repoya commit edilmiş.** Derleme çıktıları her derlemede
-  değiştiği için `git merge` sırasında çakışma verdiler; Cemre'nin güncellemesini almak
-  için önce `git clean` çalıştırmam gerekti. `.gitignore` ekledim ve takipten çıkardım.
-- **`EntityFrameworkCore.Tools` paketi eksikti.** `Update-Database` komutu
-  "not recognized" hatası veriyordu. Paketi ekledim.
-- **`appsettings.json` içinde açık şifre commit edilmiş.** Devraldığımda Cemre'nin
-  MySQL şifresi düz metin olarak repodaydı. Kendi ortamım için değiştirdim ama
-  bu dosyanın gerçek projede `.gitignore`'a alınması ve şifrenin ortam değişkeninden
-  okunması gerekir. Ekibe not olarak bırakıyorum.
-- **Veritabanında index yoktu.** `Status`, `Email`, `Country` gibi sürekli filtrelenen
-  kolonlar indexsizdi. Kayıt sayısı azken fark edilmez, büyüdükçe her sorgu tüm tabloyu
-  taramaya başlar.
+Aşağıdakiler devraldığımda henüz yapılmamış konulardı. Zaten Cemre'nin devir notunda
+"JWT eklenmesi gereken bir şey, ben yetişemedim" diye belirtilmişti — yani bilinçli
+olarak sonraki haftaya bırakılmışlardı. Ben de 3. hafta görev listem gereği bunları
+tamamladım.
+
+- **Kimlik doğrulama katmanı.** `Program.cs` içinde `app.UseAuthorization()` vardı ama
+  `AddAuthentication` / `UseAuthentication` henüz eklenmemişti. İkisi birlikte çalışıyor:
+  biri "kimsin", diğeri "yetkin var mı" sorusunu cevaplıyor. Sadece ikincisi varken
+  `[Authorize]` etiketi işlevsiz kalıyor. JWT altyapısını kurup ikisini de devreye aldım.
+- **`DbSeeder` bağlantısı.** Seeder dosyası hazır yazılmıştı ama `ConferenceDbContext`
+  içinde `OnModelCreating` olmadığı için çağrılmıyordu. Metodu ekleyip seeder'ı bağladım,
+  ayrıca başlangıç admin hesabını da oraya ekledim.
+- **`EntityFrameworkCore.Tools` paketi.** `Update-Database` komutunun çalışması için
+  gerekiyordu, `csproj`'a ekledim.
+- **`.gitignore`.** `bin/` ve `obj/` klasörleri repoda takip ediliyordu. Bu klasörler her
+  derlemede değiştiği için merge sırasında gereksiz çakışma üretiyorlar. `.gitignore`
+  ekleyip takipten çıkardım — dosyalar herkesin diskinde duruyor, sadece repoya gitmiyor.
+- **Veritabanı index'leri.** `Status`, `Email`, `Country` gibi sürekli filtrelenen
+  kolonlara index ekledim. Kayıt sayısı azken fark edilmiyor ama liste büyüdükçe her
+  sorgu tüm tabloyu taramaya başlıyor.
+
+**Ekibe bir not:** `appsettings.json` içindeki bağlantı dizesi veritabanı şifresini düz
+metin olarak taşıyor ve repoda duruyor. Herkes kendi şifresiyle çalıştığı için bu dosya
+sürekli çakışma da üretiyor. İleride bu dosyanın `.gitignore`'a alınıp şifrenin ortam
+değişkeninden okunması iyi olur — bu haftalık kapsamın dışında olduğu için dokunmadım,
+sadece kendi ortamıma göre güncelledim.
 
 ## Anlamakta zorlandığım yapılar
 
@@ -219,15 +225,16 @@ gerçek bir kayıp yaşanmadı, ama dolu bir veritabanında dikkat edilmeli.
   C# metodu çağrılmasına izin veriyor (veriyi çekip dönüşümü bellekte yapıyor).
   Yanlış tahmindi ama test etmeden değiştirmediğim için kodu bozmadım.
 
-## Düzelttiğim hatalar
+## Eklediğim küçük parçalar
 
-- `Program.cs`'e JWT kimlik doğrulama eklendi, `UseAuthentication()` `UseAuthorization()`
-  öncesine konuldu (sıra yanlış olursa yetkilendirme sessizce çalışmaz).
+- `Program.cs`'e JWT kimlik doğrulama eklendi; `UseAuthentication()` `UseAuthorization()`
+  öncesine konuldu (sıra önemli, tersi olursa yetkilendirme sessizce devre dışı kalıyor).
 - `ConferenceDbContext.OnModelCreating` eklenerek `DbSeeder` devreye alındı.
-- `PasswordHasher`'a `Verify` metodu eklendi.
+- `PasswordHasher`'a `Verify` metodu eklendi — hash üretimi vardı, karşılaştırma kısmı
+  giriş ekranıyla birlikte gerekli oldu.
 - `.gitignore` eklendi, `bin/`, `obj/`, `.vs/` takipten çıkarıldı.
-- `wwwroot` altındaki yüklenen dosyaların indirilebilmesi için `app.UseStaticFiles()`
-  eklendi — dosya kaydediliyordu ama URL'den erişilemiyordu.
+- `app.UseStaticFiles()` eklendi — yüklenen dosyalar kaydediliyordu ama URL üzerinden
+  indirilemiyordu, bu satır olmadan `wwwroot` dışarı açılmıyor.
 
 ---
 
