@@ -7,7 +7,6 @@ namespace ConferenceApi.Data
     {
         public static void Seed(ModelBuilder modelBuilder)
         {
-            // örnek
             modelBuilder.Entity<Conference>().HasData(
                 new Conference
                 {
@@ -20,10 +19,21 @@ namespace ConferenceApi.Data
                 }
             );
 
-            // Konu için örnek başlangıç verisi
             modelBuilder.Entity<ConferenceTopic>().HasData(
                 new ConferenceTopic { Id = 1, ConferenceId = 1, Name = "Yapay Zeka" },
                 new ConferenceTopic { Id = 2, ConferenceId = 1, Name = "Bilgisayar Mühendisliği" }
+            );
+
+            // Baslangic admin hesabi.
+            // Sifre: Admin123!  -> asagidaki deger SHA256 hash'idir, duz sifre tutulmaz.
+            modelBuilder.Entity<Admin>().HasData(
+                new Admin
+                {
+                    Id = 1,
+                    Username = "admin",
+                    Email = "admin@conference.com",
+                    PasswordHash = "PrP+ZrMeO00Q+nC1ytSccRIpSvauTkdqHEBRVdRaoSE="
+                }
             );
         }
     }

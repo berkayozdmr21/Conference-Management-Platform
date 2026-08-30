@@ -13,5 +13,15 @@ namespace ConferenceApi.Helpers
                 return Convert.ToBase64String(hashedBytes);
             }
         }
+
+        /// <summary>
+        /// Girilen sifreyi hash'leyip veritabanindaki hash ile karsilastirir.
+        /// Sifreyi asla geri cozmuyoruz - hash tek yonludur.
+        /// </summary>
+        public static bool Verify(string password, string storedHash)
+        {
+            if (string.IsNullOrEmpty(storedHash)) return false;
+            return HashPassword(password) == storedHash;
+        }
     }
 }

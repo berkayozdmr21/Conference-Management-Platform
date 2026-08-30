@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ConferenceApi.DTOs;
 using ConferenceApi.Services;
@@ -13,15 +14,21 @@ namespace ConferenceApi.Controllers
 
         private readonly ISubmissionService _service;
         private readonly IWebHostEnvironment _env;
+        private readonly ILogger<SubmissionsController> _logger;
 
-        public SubmissionsController(ISubmissionService service, IWebHostEnvironment env)
+        public SubmissionsController(
+            ISubmissionService service,
+            IWebHostEnvironment env,
+            ILogger<SubmissionsController> logger)
         {
             _service = service;
             _env = env;
+            _logger = logger;
         }
 
-        // POST /api/submissions  (multipart/form-data)
+        /// <summary>Ziyaretci bildiri gonderir. Herkese acik. multipart/form-data.</summary>
         [HttpPost]
+        [AllowAnonymous]
         [RequestSizeLimit(MaxFileSizeBytes)]
         public async Task<IActionResult> Create([FromForm] SubmissionCreateDto dto, IFormFile? file)
         {
@@ -31,10 +38,10 @@ namespace ConferenceApi.Controllers
             {
                 var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
                 if (!AllowedExtensions.Contains(extension))
-                    return BadRequest($"Desteklenmeyen dosya türü. İzin verilenler: {string.Join(", ", AllowedExtensions)}");
+                    return BadRequest(new { message = $"Desteklenmeyen dosya turu. Izin verilenler: {string.Join(", ", AllowedExtensions)}" });
 
                 if (file.Length > MaxFileSizeBytes)
-                    return BadRequest("Dosya boyutu 10 MB sınırını aşıyor.");
+                    return BadRequest(new { message = "Dosya boyutu 10 MB sinirini asiyor." });
 
                 var uploadsFolder = Path.Combine(_env.ContentRootPath, "wwwroot", "uploads", "submissions");
                 Directory.CreateDirectory(uploadsFolder);
@@ -54,11 +61,16 @@ namespace ConferenceApi.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        // GET /api/submissions
+        /// <summary>
+        /// Basvuru listesi - sayfalama, filtreleme ve arama destekli. Sadece admin.
+        /// Ornek: /api/submissions?page=1&amp;pageSize=10&amp;status=Pending&amp;country=Turkiye&amp;search=gozde
+        /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAll() => Ok(await _service.GetAllAsync());
+        public async Task<IActionResult> GetAll([FromQuery] SubmissionQueryParameters query)
+            => Ok(await _service.GetPagedAsync(query));
 
-        // GET /api/submissions/{id}
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -66,7 +78,8 @@ namespace ConferenceApi.Controllers
             return result is null ? NotFound() : Ok(result);
         }
 
-        // PUT /api/submissions/{id}/status
+        /// <summary>Basvuruyu onayla / reddet. Onaylanan basvuru katilimci listesine eklenir.</summary>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] SubmissionStatusUpdateDto dto)
         {
@@ -77,15 +90,17 @@ namespace ConferenceApi.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogWarning("Gecersiz durum degeri denendi. Id={Id}, Deger={Status}", id, dto.Status);
+                return BadRequest(new { message = ex.Message });
             }
         }
-        // DELETE /api/submissions/{id}
-[HttpDelete("{id}")]
-public async Task<IActionResult> Delete(int id)
-{
-    var deleted = await _service.DeleteAsync(id);
-    return deleted ? NoContent() : NotFound();
-}
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var deleted = await _service.DeleteAsync(id);
+            return deleted ? NoContent() : NotFound();
+        }
     }
 }

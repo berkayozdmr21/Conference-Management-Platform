@@ -7,6 +7,10 @@ namespace ConferenceApi.Entities
         public string Email { get; set; }
         public string Subject { get; set; }
         public string Message { get; set; }
-        public DateTime CreatedAt { get; set; }
+
+        // Admin mesaji okudu mu
+        public bool IsRead { get; set; } = false;
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
