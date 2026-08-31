@@ -1,0 +1,8 @@
+Swagger üzerinden API endpoint'lerinden birini (/api/Auth/me veya token gerektiren bir isteği) test etmeye çalıştığımda appsettings.json dosyasında JWT anahtarını bulamadı ve sunucu hata kodu (500 Dahili Sunucu Hatası) döndürdü. "Jwt"bloğu düzeltildi.
+
+Niye değişti kısacası; sistemin kimlik doğrulama mekanizmasının (Authentication) düzgün çalışabilmesi ve token'ları güvenle okuyabilmesi için bu anahtara ihtiyacı var.
+
+
+
+Duplicate (Tekrarlanan/Çift) Kayıt Kontrolleri hatalı ayni mail ile iki kayıt oluşturuyor bu olamaz bu değiştirildi. 
+
