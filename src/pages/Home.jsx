@@ -4,6 +4,7 @@ import SessionTag from "../components/ui/SessionTag";
 import SectionHeading from "../components/ui/SectionHeading";
 import CountdownTimer from "../components/ui/CountdownTimer";
 import StatsStrip from "../components/ui/StatsStrip";
+import StatusMessage from "../components/ui/StatusMessage";
 import useApiData from "../hooks/useApiData";
 import conferenceService from "../services/conferenceService";
 import topicsService from "../services/topicsService";
@@ -18,14 +19,22 @@ import {
 import "./Home.css";
 
 function formatDate(value) {
-  return new Date(value).toLocaleDateString("tr-TR", {
+  if (!value) return "-";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "-";
+  }
+
+  return date.toLocaleDateString("tr-TR", {
     day: "2-digit",
     month: "long",
     year: "numeric",
   });
 }
 
-// İleride Admin Dashboard endpoint'inden (bkz. proje dokümanı madde 5) gelecek.
+// İleride Admin Dashboard endpoint'inden gelecek.
 const STATS = [
   { value: "42+", label: "Ülke" },
   { value: "310", label: "Bildiri" },
@@ -34,47 +43,182 @@ const STATS = [
 ];
 
 export default function Home() {
-  const { data: conference } = useApiData(conferenceService.getCurrent, mockConference);
-  const { data: topics } = useApiData(topicsService.getAll, mockTopics);
-  const { data: dates } = useApiData(importantDatesService.getAll, mockImportantDates);
-  const { data: speakers } = useApiData(speakersService.getAll, mockSpeakers);
+  const {
+    data: conference,
+    loading: conferenceLoading,
+    error: conferenceError,
+  } = useApiData(conferenceService.getCurrent, mockConference);
+
+  const {
+    data: topics,
+    loading: topicsLoading,
+    error: topicsError,
+  } = useApiData(topicsService.getAll, mockTopics);
+
+  const {
+    data: dates,
+    loading: datesLoading,
+    error: datesError,
+  } = useApiData(
+    importantDatesService.getAll,
+    mockImportantDates
+  );
+
+  const {
+    data: speakers,
+    loading: speakersLoading,
+    error: speakersError,
+  } = useApiData(
+    speakersService.getAll,
+    mockSpeakers
+  );
+
+  const safeTopics = Array.isArray(topics) ? topics : [];
+  const safeDates = Array.isArray(dates) ? dates : [];
+  const safeSpeakers = Array.isArray(speakers) ? speakers : [];
+
+  const anyLoading =
+    conferenceLoading ||
+    topicsLoading ||
+    datesLoading ||
+    speakersLoading;
+
+  const hasError =
+    conferenceError ||
+    topicsError ||
+    datesError ||
+    speakersError;
 
   return (
     <>
+      {/* GENEL DURUM MESAJI */}
+      {anyLoading && (
+        <div className="container">
+          <StatusMessage
+            tone="info"
+            title="İçerikler yükleniyor..."
+          >
+            <p>
+              Konferans bilgileri hazırlanıyor. Lütfen bekleyiniz.
+            </p>
+          </StatusMessage>
+        </div>
+      )}
+
+      {hasError && (
+        <div className="container">
+          <StatusMessage
+            tone="error"
+            title="Bazı içerikler yüklenemedi"
+          >
+            <p>
+              Sunucudan bazı bilgiler alınamadı. Mevcut içerikler
+              gösterilmeye devam ediyor.
+            </p>
+          </StatusMessage>
+        </div>
+      )}
+
       {/* HERO */}
       <section className="hero">
         <div className="container hero__grid">
           <div className="hero__main">
             <span className="eyebrow">
-              {formatDate(conference.startDate)} – {formatDate(conference.endDate)} · {conference.location}
+              {formatDate(conference?.startDate)} –{" "}
+              {formatDate(conference?.endDate)} ·{" "}
+              {conference?.location || "-"}
             </span>
-            <h1>{conference.title}</h1>
-            <p className="hero__desc">{conference.description}</p>
+
+            <h1>
+              {conference?.title || "Konferans Yönetim Sistemi"}
+            </h1>
+
+            <p className="hero__desc">
+              {conference?.description ||
+                "Konferans hakkında güncel bilgiler yakında paylaşılacaktır."}
+            </p>
+
             <div className="hero__actions">
-              <Link to="/bildiri-gonder" className="btn btn-primary">Bildiri Gönder</Link>
-              <Link to="/hakkinda" className="btn btn-outline">Konferans Hakkında</Link>
+              <Link
+                to="/bildiri-gonder"
+                className="btn btn-primary"
+              >
+                Bildiri Gönder
+              </Link>
+
+              <Link
+                to="/hakkinda"
+                className="btn btn-outline"
+              >
+                Konferans Hakkında
+              </Link>
             </div>
-            <div className="hero__tags">
-              {topics.slice(0, 5).map((t) => (
-                <SessionTag key={t.id} code={t.code} label={t.name} />
-              ))}
-            </div>
+
+            {/* KONULAR */}
+            {topicsLoading ? (
+              <p className="hero__loading">
+                Konular yükleniyor...
+              </p>
+            ) : safeTopics.length > 0 ? (
+              <div className="hero__tags">
+                {safeTopics.slice(0, 5).map((topic) => (
+                  <SessionTag
+                    key={topic.id}
+                    code={topic.code}
+                    label={topic.name}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="hero__empty">
+                Henüz konferans konusu eklenmemiştir.
+              </p>
+            )}
           </div>
 
           <aside className="hero__side">
-            <CountdownTimer targetDate={conference.submissionDeadline} />
+            <CountdownTimer
+              targetDate={conference?.submissionDeadline}
+            />
 
-            <div className="hero__toc" aria-label="Önemli tarihler önizleme">
-              <span className="hero__toc-title">Önemli Tarihler</span>
-              <ol>
-                {dates.slice(0, 4).map((d) => (
-                  <li key={d.id}>
-                    <span className="hero__toc-date">{formatDate(d.date)}</span>
-                    <span>{d.title}</span>
-                  </li>
-                ))}
-              </ol>
-              <Link to="/onemli-tarihler" className="hero__toc-link">Tüm tarihleri gör →</Link>
+            <div
+              className="hero__toc"
+              aria-label="Önemli tarihler önizleme"
+            >
+              <span className="hero__toc-title">
+                Önemli Tarihler
+              </span>
+
+              {datesLoading ? (
+                <p>Önemli tarihler yükleniyor...</p>
+              ) : safeDates.length > 0 ? (
+                <>
+                  <ol>
+                    {safeDates.slice(0, 4).map((date) => (
+                      <li key={date.id}>
+                        <span className="hero__toc-date">
+                          {formatDate(date.date)}
+                        </span>
+
+                        <span>
+                          {date.title || "Tarih bilgisi"}
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+
+                  <Link
+                    to="/onemli-tarihler"
+                    className="hero__toc-link"
+                  >
+                    Tüm tarihleri gör →
+                  </Link>
+                </>
+              ) : (
+                <p>
+                  Henüz önemli tarih bilgisi bulunmamaktadır.
+                </p>
+              )}
             </div>
           </aside>
         </div>
@@ -91,16 +235,44 @@ export default function Home() {
             title="Konferans Konuları"
             description="Aşağıdaki oturum başlıklarında bildiri gönderimi kabul edilmektedir."
           />
-        <div className="topics-grid">
-  {topics.map((t, i) => (
-   <Reveal key={t.id} delay={i * 130}>
-      <div className="topic-card">
-        <SessionTag code={t.code} tone="maroon" />
-        <h3>{t.name}</h3>
-      </div>
-    </Reveal>
-  ))}
-</div>
+
+          {topicsLoading ? (
+            <StatusMessage
+              tone="info"
+              title="Konular yükleniyor..."
+            >
+              <p>
+                Konferans konuları hazırlanıyor.
+              </p>
+            </StatusMessage>
+          ) : safeTopics.length === 0 ? (
+            <StatusMessage
+              tone="info"
+              title="Henüz konu bulunmuyor"
+            >
+              <p>
+                Konferans konuları henüz sisteme eklenmemiştir.
+              </p>
+            </StatusMessage>
+          ) : (
+            <div className="topics-grid">
+              {safeTopics.map((topic, index) => (
+                <Reveal
+                  key={topic.id}
+                  delay={index * 130}
+                >
+                  <div className="topic-card">
+                    <SessionTag
+                      code={topic.code}
+                      tone="maroon"
+                    />
+
+                    <h3>{topic.name}</h3>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -112,26 +284,87 @@ export default function Home() {
             title="Davetli Konuşmacılar"
             description="Alanlarında öncü akademisyenler konferansımıza katılım sağlayacaktır."
           />
-         <div className="speakers-grid">
-  {speakers.map((s, i) => (
-    <Reveal key={s.id} delay={i * 130}>
-      <div className="speaker-card">
-        {s.photo ? (
-          <img className="speaker-card__photo" src={s.photo} alt={s.name} />
-        ) : (
-          <div className="speaker-card__avatar" aria-hidden="true">
-            {s.name.split(" ").slice(-1)[0][0]}
-          </div>
-        )}
-        <h3>{s.name}</h3>
-        <p className="speaker-card__meta">{s.university} · {s.country}</p>
-        <p>{s.description}</p>
-      </div>
-    </Reveal>
-  ))}
-</div>
+
+          {speakersLoading ? (
+            <StatusMessage
+              tone="info"
+              title="Konuşmacılar yükleniyor..."
+            >
+              <p>
+                Davetli konuşmacı bilgileri hazırlanıyor.
+              </p>
+            </StatusMessage>
+          ) : safeSpeakers.length === 0 ? (
+            <StatusMessage
+              tone="info"
+              title="Henüz konuşmacı bulunmuyor"
+            >
+              <p>
+                Davetli konuşmacılar henüz sisteme eklenmemiştir.
+              </p>
+            </StatusMessage>
+          ) : (
+            <div className="speakers-grid">
+              {safeSpeakers.map((speaker, index) => {
+                const name =
+                  typeof speaker.name === "string" &&
+                  speaker.name.trim()
+                    ? speaker.name.trim()
+                    : "İsimsiz Konuşmacı";
+
+                const nameParts = name.split(" ");
+                const lastName =
+                  nameParts[nameParts.length - 1] || "";
+
+                const avatarLetter =
+                  lastName.charAt(0).toUpperCase() || "?";
+
+                return (
+                  <Reveal
+                    key={speaker.id}
+                    delay={index * 130}
+                  >
+                    <div className="speaker-card">
+                      {speaker.photo ? (
+                        <img
+                          className="speaker-card__photo"
+                          src={speaker.photo}
+                          alt={name}
+                        />
+                      ) : (
+                        <div
+                          className="speaker-card__avatar"
+                          aria-hidden="true"
+                        >
+                          {avatarLetter}
+                        </div>
+                      )}
+
+                      <h3>{name}</h3>
+
+                      <p className="speaker-card__meta">
+                        {speaker.university || "-"} ·{" "}
+                        {speaker.country || "-"}
+                      </p>
+
+                      <p>
+                        {speaker.description ||
+                          "Konuşmacı hakkında açıklama bulunmamaktadır."}
+                      </p>
+                    </div>
+                  </Reveal>
+                );
+              })}
+            </div>
+          )}
+
           <div className="speakers-preview__cta">
-            <Link to="/konusmacilar" className="btn btn-outline">Tüm konuşmacıları gör</Link>
+            <Link
+              to="/konusmacilar"
+              className="btn btn-outline"
+            >
+              Tüm konuşmacıları gör
+            </Link>
           </div>
         </div>
       </section>

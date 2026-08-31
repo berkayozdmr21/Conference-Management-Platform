@@ -128,3 +128,97 @@ export const mockContactInfo = {
   phone: "+90 (312) 000 00 00",
   address: "Fen Fakültesi, Matematik Bölümü, İstanbul, Türkiye",
 };
+export const mockBooks = [
+  {
+    id: 1,
+    title: "ICOMATH-Style 2027 Bildiri Kitabı",
+    year: 2027,
+    description:
+      "ICOMATH-Style 2027 konferansında sunulan akademik bildirilerin yer aldığı konferans bildiri kitabı.",
+    fileUrl: "#",
+  },
+  {
+    id: 2,
+    title: "ICOMATH-Style 2026 Bildiri Kitabı",
+    year: 2026,
+    description:
+      "ICOMATH-Style 2026 konferansında sunulan akademik bildirilerin yer aldığı konferans bildiri kitabı.",
+    fileUrl: "#",
+  },
+  {
+    id: 3,
+    title: "ICOMATH-Style 2025 Bildiri Kitabı",
+    year: 2025,
+    description:
+      "ICOMATH-Style 2025 konferansında sunulan akademik bildirilerin yer aldığı konferans bildiri kitabı.",
+    fileUrl: "#",
+  },
+];
+
+export const mockProgram = [
+  {
+    id: 1,
+    date: "2026-10-15",
+    time: "09:00 - 09:30",
+    type: "Kayıt",
+    title: "Katılımcı Kayıtları",
+    location: "Konferans Salonu",
+  },
+  {
+    id: 2,
+    date: "2026-10-15",
+    time: "10:00 - 10:30",
+    type: "Açılış",
+    title: "Konferans Açılış Töreni",
+    location: "Ana Salon",
+  },
+  {
+    id: 3,
+    date: "2026-10-15",
+    time: "11:00 - 12:00",
+    type: "Konuşma",
+    title: "Yapay Zeka ve Gelecek",
+    location: "Ana Salon",
+  },
+  {
+    id: 4,
+    date: "2026-10-16",
+    time: "09:30 - 10:30",
+    type: "Oturum",
+    title: "Veri Bilimi ve Uygulamaları",
+    location: "Salon A",
+  },
+  {
+    id: 5,
+    date: "2026-10-16",
+    time: "11:00 - 12:00",
+    type: "Oturum",
+    title: "Uygulamalı Matematik",
+    location: "Salon B",
+  },
+  {
+    id: 6,
+    date: "2026-10-17",
+    time: "10:00 - 11:00",
+    type: "Konuşma",
+    title: "Bilimsel Araştırmalarda Yeni Yaklaşımlar",
+    location: "Ana Salon",
+  },
+];
+
+export const mockRegistrationFees = [
+  {
+    id: 1,
+    participationType: "Fiziksel Katılım",
+    description: "Konferansa yüz yüze katılım.",
+    fee: null,
+    currency: "TRY",
+  },
+  {
+    id: 2,
+    participationType: "Online Katılım",
+    description: "Konferansa çevrimiçi katılım.",
+    fee: null,
+    currency: "TRY",
+  },
+];

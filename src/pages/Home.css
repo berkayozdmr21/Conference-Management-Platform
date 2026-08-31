@@ -170,3 +170,41 @@
   margin-bottom: var(--space-3);
   border: 2px solid var(--color-brass);
 }
+/* Küçük ekranlar için genel düzen */
+@media (max-width: 600px) {
+  .hero__grid {
+    padding: var(--space-5) 0;
+    gap: var(--space-4);
+  }
+
+  .hero__main h1 {
+    font-size: 2rem;
+  }
+
+  .hero__desc {
+    font-size: 0.95rem;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .topics-grid,
+  .speakers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topic-card,
+  .speaker-card {
+    padding: var(--space-3);
+  }
+
+  .speakers-preview__cta .btn {
+    width: 100%;
+  }
+}

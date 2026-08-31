@@ -14,9 +14,12 @@ const NAV_ITEMS = [
   { to: "/hakkinda", label: "Hakkında" },
   { to: "/konular", label: "Konular" },
   { to: "/onemli-tarihler", label: "Önemli Tarihler" },
+  { to: "/program", label: "Program" },
   { to: "/konusmacilar", label: "Konuşmacılar" },
   { to: "/katilimcilar", label: "Katılımcılar" },
   { to: "/iletisim", label: "İletişim" },
+  {to:"/kitaplar",label:"Kitaplar"},
+  { to: "/kayit", label: "Kayıt & Ücretler" },
 ];
 
 export default function Header() {

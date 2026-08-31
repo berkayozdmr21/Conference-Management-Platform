@@ -18,7 +18,10 @@ import "./Participants.css";
  * her tuşta sunucuya istek atmak gereksiz yük olurdu.
  */
 export default function Participants() {
-  const { data, loading, usingFallback } = useApiData(participantsService.getAll, mockParticipants);
+  const { data, loading, error, usingFallback } = useApiData(
+  participantsService.getAll,
+  mockParticipants
+);
   const [query, setQuery] = useState("");
 
   // Savunmacı kontrol: backend beklenmedik bir biçim döndürürse
@@ -87,8 +90,13 @@ export default function Participants() {
             Aksi hâlde veri gelmeden "katılımcı bulunamadı" yazısı görünür
             ve kullanıcı listenin boş olduğunu sanır. */}
         {loading && <p className="participants__state">Katılımcı listesi yükleniyor…</p>}
+        {!loading && error && (
+  <p className="participants__state participants__state--error">
+    Katılımcı listesi yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.
+  </p>
+)}
 
-        {!loading && filtered.length === 0 && (
+        {!loading && !error && filtered.length === 0 && (
           <p className="participants__state">
             {query
               ? `"${query}" aramasıyla eşleşen katılımcı bulunamadı.`

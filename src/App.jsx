@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
@@ -9,6 +10,9 @@ import Submission from "./pages/Submission";
 import Participants from "./pages/Participants";
 import Contact from "./pages/Contact";
 import ComingSoon from "./pages/ComingSoon";
+import ConferenceBooks from "./pages/ConferenceBooks";
+import Registration from "./pages/Registration";
+import Program from "./pages/Program";
 
 export default function App() {
   return (
@@ -18,7 +22,10 @@ export default function App() {
         <Route path="/hakkinda" element={<About />} />
         <Route path="/konular" element={<Topics />} />
         <Route path="/onemli-tarihler" element={<ImportantDates />} />
+        <Route path="/program" element={<Program />} />
         <Route path="/konusmacilar" element={<Speakers />} />
+
+        <Route path="/kitaplar" element={<ConferenceBooks />} />
 
         {/* Hafta 2 (Gözde): bu üç rota ComingSoon placeholder'ından gerçek
             sayfalara çevrildi. Yol adları Cemre'nin Header'da kullandığı
@@ -28,7 +35,8 @@ export default function App() {
         <Route path="/iletisim" element={<Contact />} />
 
         {/* Kayıt & Ücretler proje planına göre 3. hafta kapsamında. */}
-        <Route path="/kayit" element={<ComingSoon title="Kayıt & Ücretler" />} />
+        
+        <Route path="/kayit" element={<Registration />} />
         <Route path="*" element={<ComingSoon title="Sayfa Bulunamadı" />} />
       </Route>
     </Routes>

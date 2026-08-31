@@ -1,0 +1,69 @@
+.books__notice {
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  background: #f5f1f1;
+  font-size: 14px;
+}
+
+.books__state {
+  padding: 32px 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+.books__state--error {
+  color: #a33;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.book-card {
+  padding: 28px;
+  border: 1px solid #e5e0e0;
+  border-radius: 12px;
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.book-card__year {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.book-card__content h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.book-card__content p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .books-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .book-card {
+    padding: 22px;
+  }
+}
