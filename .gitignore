@@ -1,0 +1,28 @@
+## .NET derleme ciktilari - bunlar her derlemede degisir, repoda tutulmaz
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+## Visual Studio kullanici dosyalari
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider / VS Code
+.idea/
+.vscode/
+
+## Node (frontend tarafi icin)
+node_modules/
+dist/
+
+## Yerel ayarlar - baglanti dizesi ve sifre icerir
+appsettings.Development.json
+appsettings.Local.json
+
+## Isletim sistemi
+.DS_Store
+Thumbs.db
