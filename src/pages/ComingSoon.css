@@ -1,0 +1,27 @@
+.coming-soon {
+  text-align: center;
+  padding-top: var(--space-7);
+  padding-bottom: var(--space-7);
+}
+
+.coming-soon p {
+  max-width: 46ch;
+  margin: 0 auto;
+}
+
+/* Küçük ekran */
+@media (max-width: 600px) {
+  .coming-soon {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+  }
+
+  .coming-soon h1 {
+    font-size: 1.8rem;
+  }
+
+  .coming-soon p {
+    font-size: var(--fs-small);
+    padding: 0 var(--space-2);
+  }
+}

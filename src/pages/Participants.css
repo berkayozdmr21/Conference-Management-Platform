@@ -1,0 +1,175 @@
+.participants__notice {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-brass-dark);
+  background: rgba(169, 130, 76, 0.08);
+  border: 1px dashed rgba(169, 130, 76, 0.4);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  display: inline-block;
+  margin-bottom: var(--space-4);
+}
+
+.participants__toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.participants__search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1 1 320px;
+}
+
+.participants__search-label {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.participants__search-input {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  color: var(--color-text);
+  background: var(--color-paper-raised);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.85rem;
+  width: 100%;
+}
+
+.participants__search-input:focus {
+  outline: none;
+  border-color: var(--color-ink);
+  box-shadow: 0 0 0 3px rgba(23, 53, 107, 0.12);
+}
+
+.participants__count {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  color: var(--color-text-muted);
+}
+
+.participants__state {
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  text-align: center;
+}
+
+/* Tablo dar ekranda taşmasın diye kendi içinde yatay kayabilir. */
+.participants__table-wrap {
+  overflow-x: auto;
+  border-top: 1px solid var(--color-border);
+}
+
+.participants__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-small);
+}
+
+.participants__table th {
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: var(--fs-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  padding: var(--space-3) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.participants__table td {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.participants__name {
+  font-weight: 600;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+.participants__session-name {
+  display: inline-block;
+  margin-left: var(--space-2);
+}
+
+.participants__badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  border-radius: var(--radius);
+  padding: 0.18rem 0.5rem;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.participants__badge--online {
+  color: var(--color-teal);
+  border-color: rgba(27, 138, 107, 0.4);
+  background: rgba(27, 138, 107, 0.08);
+}
+
+.participants__badge--physical {
+  color: var(--color-ink);
+  border-color: rgba(23, 53, 107, 0.3);
+  background: rgba(23, 53, 107, 0.06);
+}
+
+/* Mobilde tablo satırları kart görünümüne dönüşür.
+   data-label değerleri JSX'te her <td>'ye yazıldı; burada
+   ::before ile başlık olarak gösteriliyor. */
+@media (max-width: 720px) {
+  .participants__table thead {
+    display: none;
+  }
+
+  .participants__table,
+  .participants__table tbody,
+  .participants__table tr,
+  .participants__table td {
+    display: block;
+    width: 100%;
+  }
+
+  .participants__table tr {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    margin-bottom: var(--space-3);
+    padding: var(--space-2);
+    background: var(--color-paper-raised);
+  }
+
+  .participants__table td {
+    border-bottom: none;
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-2);
+  }
+
+  .participants__table td::before {
+    content: attr(data-label);
+    flex: 0 0 90px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .participants__session-name {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,46 @@
+.announcement-bar {
+  background: linear-gradient(120deg, var(--color-teal) 0%, #146650 100%);
+  color: #ffffff;
+}
+
+.announcement-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 0.55rem var(--space-4);
+  position: relative;
+  text-align: center;
+}
+
+.announcement-bar p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.announcement-bar a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.announcement-bar__close {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 4px 8px;
+}
+.announcement-bar__close:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .announcement-bar p { font-size: 0.78rem; }
+}
