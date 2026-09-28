@@ -1,0 +1,32 @@
+.session-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  border-radius: var(--radius);
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-paper-raised);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.session-tag__code {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.session-tag--brass {
+  border-color: rgba(169, 130, 76, 0.4);
+}
+.session-tag--brass .session-tag__code {
+  color: var(--color-brass-dark);
+}
+
+.session-tag--maroon {
+  border-color: rgba(122, 46, 46, 0.35);
+}
+.session-tag--maroon .session-tag__code {
+  color: var(--color-maroon);
+}
