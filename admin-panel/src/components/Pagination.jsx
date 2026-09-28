@@ -18,7 +18,7 @@ function Pagination({ sayfa, toplamSayfa, setSayfa }) {
           <button className="page-link" onClick={() => setSayfa(sayfa + 1)}>Sonraki</button>
         </li>
       </ul>
-    </nav>
+    </nav>-
   );
 }
 
